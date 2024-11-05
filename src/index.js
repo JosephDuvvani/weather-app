@@ -1,4 +1,5 @@
 import "./style.css";
+import cloudy from "./icons/cloudy.png";
 
 async function getWeatherData(location) {
   const request = new Request(
@@ -69,3 +70,17 @@ const searchLocationWeather = () => {
 };
 
 searchButton.addEventListener("click", searchLocationWeather);
+document.getElementById("weather_descr_icon").src = cloudy;
+
+//Prevent unstyled content flash
+
+let domReady = (cb) => {
+  document.readyState === "interactive" || document.readyState === "complete"
+    ? cb()
+    : document.addEventListener("DOMContentLoaded", cb);
+};
+
+domReady(() => {
+  // Display body when DOM is loaded
+  document.body.style.visibility = "visible";
+});

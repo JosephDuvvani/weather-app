@@ -1,0 +1,51 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1, h2, h3, h4 {
+    font-size: inherit;
+    font-weight: inherit;
+    padding: 0;
+    margin: 0;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.content,
+.weather_card,
+.data_table_columns,
+.week {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.content {
+    gap: 2rem 0;
+}
+
+.header,
+.search_form-container,
+.address,
+.datetime,
+.data_table {
+    grid-column: 1/-1;
+}
+
+.header {
+    display: flex;
+    gap: 2rem;
+}
+
+.search_form {
+    display: flex;
+}
+
+.weather_card {
+    gap: 1rem 0;
+}

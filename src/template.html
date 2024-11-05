@@ -6,17 +6,144 @@
     <title>Weather App</title>
   </head>
   <body>
-    <div class="search_form-container">
-      <div class="search_form" id="search-form">
-        <input type="text" id="search_form-input" id="search_form-input" />
-        <div class="search_form-clear" id="search_form-clear">
-          <span class="icon-container"></span>
-        </div>
-        <button class="search_form-button" id="search_form-button">
-          <div>
-            <span class="icon-container">Search</span>
+    <div class="weather-app">
+      <div class="content">
+        <div class="header">
+          <div class="logo">
+            <h1>Weather Forecast Now</h1>
           </div>
-        </button>
+          <div class="nav">
+            <span id="today">Today</span>
+            <span id="Week">Week</span>
+            <span id="15-Day">15-Day</span>
+          </div>
+        </div>
+
+        <div class="search_form-container">
+          <div class="search_form" id="search-form">
+            <input type="text" id="search_form-input" id="search_form-input" />
+            <div class="search_form-clear" id="search_form-clear">
+              <span class="icon-container"></span>
+            </div>
+            <button class="search_form-button" id="search_form-button">
+              <div>
+                <span class="icon-container">Search</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <div class="weather_card">
+          <h2 class="address">East London, Eastern Cape</h2>
+          <div class="datetime">20:21 - Monday 4, 11 2024</div>
+          <div class="temp">
+            <div id="celsius">
+              <span class="temp_value">16</span>
+              <span class="degrees"></span>
+              <span class="unit">C</span>
+            </div>
+            <div class="line"></div>
+            <div id="fahrenheit">
+              <span class="temp_value">55</span>
+              <span class="degrees"></span>
+              <span class="unit">F</span>
+            </div>
+          </div>
+          <div class="weather_descr">
+            <div class="image">
+              <img
+                src=""
+                alt="Weather Image"
+                id="weather_descr_icon"
+                style="width: 50px"
+              />
+            </div>
+            <div class="text" id="weather_descr_text">Partly Cloudy</div>
+          </div>
+          <div class="data_table" id="data_table">
+            <h3 class="data_table_title" id="table_title">
+              Weather today in East London, Eastern Cape
+            </h3>
+            <div class="data_table_header" id="table_header">
+              <div class="feelslike">
+                <div class="feelslike_temp">
+                  <div id="celsius">
+                    <span class="temp_value">14</span>
+                    <span class="degrees"></span>
+                    <span class="unit">C</span>
+                  </div>
+                  <div class="line"></div>
+                  <div id="fahrenheit">
+                    <span class="temp_value">44</span>
+                    <span class="degrees"></span>
+                    <span class="unit">F</span>
+                  </div>
+                </div>
+                <div class="feelslike_label">Feels Like</div>
+              </div>
+            </div>
+            <div class="data_table_columns">
+              <ul class="column-1">
+                <li class="cell">
+                  <span class="data_icon"></span>
+                  <span class="data_label">High/Low</span>
+                  <span class="data_value">
+                    <span id="high">15°</span>
+                    <span class="line">/</span>
+                    <span id="low">10°</span>
+                  </span>
+                </li>
+                <li class="cell">
+                  <span class="data_icon"></span>
+                  <span class="data_label">Wind</span>
+                  <span class="data_value" id="wind">24km/h</span>
+                </li>
+                <li class="cell">
+                  <span class="data_icon"></span>
+                  <span class="data_label">Pressure</span>
+                  <span class="data_value" id="pressure">61%</span>
+                </li>
+                <li class="cell">
+                  <span class="data_icon"></span>
+                  <span class="data_label">Visibility</span>
+                  <span class="data_value" id="visibility">8</span>
+                </li>
+              </ul>
+              <ul class="column-2">
+                <li class="cell">
+                  <span class="data_icon"></span>
+                  <span class="data_label">Humidity</span>
+                  <span class="data_value" id="humidity">61%</span>
+                </li>
+                <li class="cell">
+                  <span class="data_icon"></span>
+                  <span class="data_label">Dew Point</span>
+                  <span class="data_value" id="dew_point">0°</span>
+                </li>
+                <li class="cell">
+                  <span class="data_icon"></span>
+                  <span class="data_label">UV Index</span>
+                  <span class="data_value" id="uv_index">0 of 10</span>
+                </li>
+                <li class="cell">
+                  <span class="data_icon"></span>
+                  <span class="data_label">Moon Phase</span>
+                  <span class="data_value" id="moon_phase">Full Moon</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="week">
+          <div class="day_1">One</div>
+          <div class="day_2">Two</div>
+          <div class="day_3">Three</div>
+          <div class="day_4">Four</div>
+          <div class="day_5">Five</div>
+          <div class="day_6">Six</div>
+          <div class="day_7">Seven</div>
+        </div>
       </div>
     </div>
   </body>
