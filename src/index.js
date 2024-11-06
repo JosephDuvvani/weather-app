@@ -59,6 +59,7 @@ function getFilteredData(data) {
 
 const searchInput = document.getElementById("search_form-input");
 const searchButton = document.getElementById("search_form-button");
+const searchClearButton = document.getElementById("search_form-clear");
 
 const searchLocationWeather = () => {
   if (searchInput.value === "") return;
@@ -70,6 +71,22 @@ const searchLocationWeather = () => {
   });
 };
 
+searchInput.addEventListener("input", () => {
+  if (searchInput.value.length > 0) {
+    searchClearButton.style.visibility = "visible";
+  } else {
+    searchClearButton.style.visibility = "hidden";
+  }
+});
+
+searchClearButton.addEventListener("click", (e) => {
+  e.preventDefault();
+  searchInput.value = "";
+  searchClearButton.style.visibility = "hidden";
+});
+
+//Dumby DOM content
+
 searchButton.addEventListener("click", searchLocationWeather);
 document.getElementById("weather_descr_icon").src = cloudy;
 
@@ -77,6 +94,7 @@ const weekdayIcons = document.querySelectorAll(".weather-image-container");
 weekdayIcons.forEach((day) => {
   day.querySelector(".weather-image").src = rainy;
 });
+
 //Prevent unstyled content flash
 
 let domReady = (cb) => {
