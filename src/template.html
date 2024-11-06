@@ -68,11 +68,11 @@
 
         <div class="weather_card-container">
           <div class="weather_card">
-            <h2 class="address">East London, Eastern Cape</h2>
-            <div class="datetime">20:21 - Monday 4, 11 2024</div>
+            <h2 class="address" id="address">East London, Eastern Cape</h2>
+            <div class="datetime" id="datetime">20:21 - Monday 4, 11 2024</div>
             <div class="temp">
               <div class="celsius temperature">
-                <span class="temp_value">16</span>
+                <span class="temp_value" id="temp-celsius">16</span>
                 <div class="unit">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
@@ -83,7 +83,7 @@
               </div>
               <div class="line"></div>
               <div class="fahrenheit temperature">
-                <span class="temp_value">55</span>
+                <span class="temp_value" id="temp-fahrenheit">55</span>
                 <div class="unit">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
@@ -108,7 +108,9 @@
                   <div class="container">
                     <div class="feelslike_temp">
                       <div class="celsius temperature">
-                        <span class="temp_value">14</span>
+                        <span class="temp_value" id="feelslike-celsius"
+                          >14</span
+                        >
                         <div class="unit">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -121,7 +123,9 @@
                         </div>
                       </div>
                       <div class="fahrenheit temperature">
-                        <span class="temp_value">44</span>
+                        <span class="temp_value" id="feelslike-fahrenheit"
+                          >44</span
+                        >
                         <div class="unit">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -152,11 +156,7 @@
                       </svg>
                     </span>
                     <span class="data_label">High/Low</span>
-                    <span class="data_value">
-                      <span id="high">15°</span>
-                      <span class="line">/</span>
-                      <span id="low">10°</span>
-                    </span>
+                    <span class="data_value" id="high-low"> 15° / 10°</span>
                   </li>
                   <li class="cell">
                     <span class="data_icon">

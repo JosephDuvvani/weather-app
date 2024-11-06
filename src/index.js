@@ -1,6 +1,9 @@
 import "./style.css";
+import DisplayData from "./display-data";
 import cloudy from "./icons/cloudy.png";
 import rainy from "./icons/rain.png";
+
+const weatherApp = DisplayData();
 
 async function getWeatherData(location) {
   const request = new Request(
