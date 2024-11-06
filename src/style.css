@@ -1,6 +1,12 @@
 body {
     margin: 0;
     padding: 0;
+
+    background-color: #111;
+    font-family: 'Rubik', sans-serif;
+}
+
+* {
     box-sizing: border-box;
 }
 
@@ -17,19 +23,30 @@ ul {
     margin: 0;
 }
 
+.weather-app {
+    min-height: 100svh;
+    background: linear-gradient(
+        rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url('./images/day/cloudy/cloudy.jpg');
+    background-position: bottom;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #fff;
+}
+
 .content,
 .weather_card,
-.data_table_columns,
-.week {
+.data_table_columns {
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
 
 .content {
-    gap: 2rem 0;
+    margin-inline: 2rem;
 }
 
 .header,
+.header_line,
 .search_form-container,
 .address,
 .datetime,
@@ -40,12 +57,284 @@ ul {
 .header {
     display: flex;
     gap: 2rem;
+    align-items: center;
+    padding-block: 1rem;
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.nav {
+    display: flex;
+    gap: 1.5rem;
+}
+
+
+.nav span {
+    cursor: pointer;
+    transition: .5s;
+}
+
+.nav span:hover {
+    transform: scale(1.4);
+}
+
+.header_line {
+    height: 2px;
+    background-color: #fff;
+}
+
+.search_form-container {
+    display: flex;
+    justify-content: center;
+    padding-block: 1rem;
+    justify-self: center;
 }
 
 .search_form {
     display: flex;
+    align-items: center;
+    height: 2.5rem;
+    padding-block: .3rem;
+    padding-inline: .7rem .3rem;
+    background-color: #fff;
+    border-radius: 50vh 0 0 50vh;
+}
+
+.icon-container {
+    display: flex;
+    position: relative;
+}
+
+.icon-container svg {
+    width: 1.5rem;
+    fill: #8f8f8f;
+}
+
+#search_form-input {
+    font-size: 1rem;
+    outline: none;
+    border: 0;
+    background: transparent;
+    margin-left: .2rem;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.search_form-clear {
+    cursor: pointer;
+}
+
+.search_form-button {
+    border: 0;
+    width: 4rem;
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    border-radius: 0 50vh 50vh 0;
+    cursor: pointer;
+}
+
+.search_form-button:hover svg,
+.search_form-clear:hover svg {
+    fill: #111;
 }
 
 .weather_card {
-    gap: 1rem 0;
+    gap: 0 .5rem;
+    justify-self: center;
+    padding: 1rem;
+    border-radius: .3rem;
+}
+
+h2.address {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.weather_card .datetime {
+    font-size: .9rem;
+    font-weight: 500;
+    margin-block: .5rem;
+}
+
+.weather_card .temp {
+    align-self: center;
+}
+
+.temp {
+    display: flex;
+    align-items: baseline;
+}
+
+.weather_card .temp .temperature:first-child{
+    font-size: 5rem;
+}
+
+.weather_card .temp .temperature:last-child{
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.celsius,
+.fahrenheit {
+    display: flex;
+}
+
+.unit {
+    display: flex;
+    align-items: start;
+}
+
+.temp_value {
+    line-height: .85;
+}
+
+.unit svg {
+    width: .5em;
+    fill: currentColor;
+}
+
+.temp .line {
+    width: 2px;
+    height: 1.5rem;
+    background-color: #fff;
+    transform: rotate(20deg);
+    margin-right: .3em;
+}
+
+.weather_card-container {
+    display: grid;
+    justify-items: start;
+    min-width: max-content;
+}
+
+.weather_descr {
+    display: grid;
+    justify-items: center;
+}
+
+#weather_descr_icon {
+    width: 5rem;
+}
+
+.data_table_title {
+    font-size: .9em;
+    font-weight: 500;
+    margin-block: 1.5rem;
+}
+
+.feelslike {
+    margin-bottom: 2rem;
+}
+
+.feelslike .container {
+    height: 2rem;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: .5rem;
+}
+
+.feelslike_temp {
+    display: grid;
+    position: absolute;
+    /* bottom: 0; */
+}
+
+.feelslike_temp .temperature {
+    font-size: 2.5rem;
+}
+
+.feelslike_label {
+    font-size: .8em;
+}
+
+.data_table_columns {
+    width: 35rem;
+}
+
+.data_table_columns .column {
+    display: grid;
+    gap: .5em;
+}
+
+.column-2 {
+    margin-left: 1rem;
+}
+
+.column .cell {
+    font-size: .9rem;
+    display: flex;
+    gap: 1em;
+    border-bottom: 2px solid #fff;
+    padding-block: 1em .8em;
+    line-height: 1.5;
+}
+
+.cell .data_icon svg {
+    height: 110%;
+    fill: #fff;
+}
+
+.moon_phase-icon {
+    transform: rotate(-35deg);
+}
+
+.cell .data_label {
+    flex: 1;
+    min-width: max-content;
+}
+
+.cell .data_value {
+    min-width: max-content;
+}
+
+.extra-content-container {
+    display: grid;
+    justify-items: center;
+    align-content: center;
+}
+
+.week {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.week .day-1 {
+    grid-column: 1/-1;
+    margin-inline: calc(25% + .5rem);
+}
+
+.weekday {
+    padding: .5rem;
+    border: 1px solid hsl(0, 0%, 80%);
+    border-radius: .3rem;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.weekday:hover {
+    transform: scale(1.1);
+}
+
+.weekday .daydate {
+    display: flex;
+    gap: 2em;
+    margin-bottom: .5rem;
+}
+
+.daydate .day {
+    flex: 1;
+}
+
+.weather-image-container {
+    justify-self: center;
+}
+
+.weather-image-container .weather-image {
+    width: 4em;
 }

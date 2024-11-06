@@ -1,5 +1,6 @@
 import "./style.css";
 import cloudy from "./icons/cloudy.png";
+import rainy from "./icons/rain.png";
 
 async function getWeatherData(location) {
   const request = new Request(
@@ -72,6 +73,10 @@ const searchLocationWeather = () => {
 searchButton.addEventListener("click", searchLocationWeather);
 document.getElementById("weather_descr_icon").src = cloudy;
 
+const weekdayIcons = document.querySelectorAll(".weather-image-container");
+weekdayIcons.forEach((day) => {
+  day.querySelector(".weather-image").src = rainy;
+});
 //Prevent unstyled content flash
 
 let domReady = (cb) => {
