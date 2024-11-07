@@ -1,4 +1,5 @@
 export default function () {
+  //Weather Card
   const address = document.getElementById("address");
   const datetime = document.getElementById("datetime");
   const tempCelsius = document.getElementById("temp-celsius");
@@ -16,6 +17,13 @@ export default function () {
   const dewPoint = document.getElementById("dew_point");
   const uvIndex = document.getElementById("uv_index");
   const moonPhase = document.getElementById("moon_phase");
+
+  //Week
+  const day = document.querySelectorAll(".day");
+  const date = document.querySelectorAll(".date");
+  const weatherImage = document.querySelectorAll(".weather-image");
+  const daytempCelsius = document.querySelectorAll(".daytemp-celsius");
+  const daytempFahrenheit = document.querySelectorAll(".daytemp-fahrenheit");
 
   function display(ref, value) {
     ref.textContent = "";
@@ -90,6 +98,27 @@ export default function () {
     display(moonPhase, input);
   };
 
+  const showWeekday = (
+    dayNum,
+    newDay,
+    newDate,
+    newImage,
+    dayTempC,
+    dayTempF
+  ) => {
+    day[dayNum].textContent = "";
+    date[dayNum].textContent = "";
+    weatherImage[dayNum].src = "#";
+    daytempCelsius[dayNum].textContent = "";
+    daytempFahrenheit[dayNum].textContent = "";
+
+    day[dayNum].textContent = newDay;
+    date[dayNum].textContent = newDate;
+    weatherImage[dayNum].src = newImage;
+    daytempCelsius[dayNum].textContent = dayTempC;
+    daytempFahrenheit[dayNum].textContent = dayTempF;
+  };
+
   return {
     showAddress,
     showDatetime,
@@ -108,5 +137,6 @@ export default function () {
     showDew,
     showUVIndex,
     showMoonPhase,
+    showWeekday,
   };
 }

@@ -329,7 +329,7 @@ h2.address {
 .weekday .daydate {
     display: flex;
     gap: 2em;
-    margin-bottom: .5rem;
+    margin-bottom: .5em;
 }
 
 .daydate .day {
@@ -341,5 +341,20 @@ h2.address {
 }
 
 .weather-image-container .weather-image {
-    width: 4em;
+    width: 3.5em;
+}
+
+.daytemp-container {
+    height: 1.2em;
+    overflow: hidden;
+    position: relative;
+    display: grid;
+    margin-top: .3em;
+}
+
+.daytemp {
+    display: grid;
+    justify-self: center;
+    font-size: 1.2em;
+    position: absolute;
 }

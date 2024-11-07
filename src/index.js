@@ -24,6 +24,7 @@ async function getWeatherData(location) {
 }
 
 function getFilteredData(data) {
+  console.log(data);
   return {
     address: data.resolvedAddress,
     currentConditions: {
@@ -33,6 +34,7 @@ function getFilteredData(data) {
     },
     days: data.days.map((day) => {
       return {
+        temp: day.temp,
         tempmax: day.tempmax,
         tempmin: day.tempmin,
         datetime: day.datetime,
@@ -91,8 +93,12 @@ const displayLocationWeather = () => {
     if (!result) return;
     const data = getFilteredData(result);
 
-    const address = data.address.split(",");
-    address.pop();
+    //Weather Card
+    let location = data.address;
+    if (location.includes(",")) {
+      location = data.address.split(",");
+      location.pop();
+    }
     const current = data.currentConditions;
     const today = data.days[0];
     const currentTime = current.datetime.split(":");
@@ -107,7 +113,7 @@ const displayLocationWeather = () => {
     weatherApp.showTempCelsius(fahrenheitToCelsius(current.temp));
     weatherApp.showTempFahrenheit(Math.trunc(current.temp));
     weatherApp.showDescriptionText(today.conditions);
-    weatherApp.showDataTableTitle(`Weather today in ${address}`);
+    weatherApp.showDataTableTitle(`Weather today in ${location}`);
     weatherApp.showFeelslikeCelsius(fahrenheitToCelsius(current.feelslike));
     weatherApp.showFeelslikeFahrenheit(Math.trunc(current.feelslike));
     weatherApp.showMaxMinTemp(
@@ -122,6 +128,23 @@ const displayLocationWeather = () => {
     weatherApp.showDew(`${fahrenheitToCelsius(today.dew)}°`);
     weatherApp.showUVIndex(`${today.uvindex} of 10`);
     weatherApp.showMoonPhase("Full Moon");
+
+    //Week
+    for (let i = 0; i < 7; i++) {
+      let day = format(new Date(data.days[i].datetime), "EEEE");
+      let date = format(new Date(data.days[i].datetime), "dd/MM");
+      let image = rainy;
+      let tempC = `${fahrenheitToCelsius(data.days[i].temp)}°`;
+      let tempF = `${Math.trunc(+data.days[i].temp)}°`;
+
+      if (i === 0) {
+        weatherApp.showWeekday(i, "Today", date, image, tempC, tempF);
+      } else if (i === 1) {
+        weatherApp.showWeekday(i, "Tomorrow", date, image, tempC, tempF);
+      } else {
+        weatherApp.showWeekday(i, day, date, image, tempC, tempF);
+      }
+    }
   });
 };
 
