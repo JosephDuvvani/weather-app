@@ -2,6 +2,8 @@ import "./style.css";
 import DisplayData from "./display-data";
 import cloudy from "./icons/cloudy.png";
 import rainy from "./icons/rain.png";
+import { format, compareAsc } from "date-fns";
+import { ta } from "date-fns/locale";
 
 const weatherApp = DisplayData();
 
@@ -22,7 +24,7 @@ async function getWeatherData(location) {
 }
 
 function getFilteredData(data) {
-  const appData = {
+  return {
     address: data.resolvedAddress,
     currentConditions: {
       temp: data.currentConditions.temp,
@@ -40,6 +42,8 @@ function getFilteredData(data) {
         windspeed: day.windspeed,
         pressure: day.pressure,
         visibility: day.visibility,
+        uvindex: day.uvindex,
+        moonphase: day.moonphase,
         sunrise: day.sunrise,
         sunset: day.sunset,
         hours: day.hours.map((hour) => {
@@ -57,22 +61,11 @@ function getFilteredData(data) {
       };
     }),
   };
-  console.log(appData);
 }
 
 const searchInput = document.getElementById("search_form-input");
 const searchButton = document.getElementById("search_form-button");
 const searchClearButton = document.getElementById("search_form-clear");
-
-const searchLocationWeather = () => {
-  if (searchInput.value === "") return;
-  const location = searchInput.value.trim();
-  const weatherData = getWeatherData(location);
-  weatherData.then((result) => {
-    if (!result) return;
-    getFilteredData(result);
-  });
-};
 
 searchInput.addEventListener("input", () => {
   if (searchInput.value.length > 0) {
@@ -82,6 +75,58 @@ searchInput.addEventListener("input", () => {
   }
 });
 
+const fahrenheitToCelsius = (fahren) => {
+  return Math.trunc(((+fahren - 32) * 5) / 9);
+};
+
+const milesToKilometers = (miles) => {
+  return (+miles / 0.6214).toFixed(1);
+};
+
+const displayLocationWeather = () => {
+  if (searchInput.value === "") return;
+  const location = searchInput.value.trim();
+  const weatherData = getWeatherData(location);
+  weatherData.then((result) => {
+    if (!result) return;
+    const data = getFilteredData(result);
+
+    const address = data.address.split(",");
+    address.pop();
+    const current = data.currentConditions;
+    const today = data.days[0];
+    const currentTime = current.datetime.split(":");
+    currentTime.pop();
+    const formattedDateTime = `${currentTime.join(":")} ${format(
+      new Date(`${today.datetime}`),
+      "EEEE, dd MMM yyyy"
+    )}`;
+
+    weatherApp.showAddress(data.address);
+    weatherApp.showDatetime(formattedDateTime);
+    weatherApp.showTempCelsius(fahrenheitToCelsius(current.temp));
+    weatherApp.showTempFahrenheit(Math.trunc(current.temp));
+    weatherApp.showDescriptionText(today.conditions);
+    weatherApp.showDataTableTitle(`Weather today in ${address}`);
+    weatherApp.showFeelslikeCelsius(fahrenheitToCelsius(current.feelslike));
+    weatherApp.showFeelslikeFahrenheit(Math.trunc(current.feelslike));
+    weatherApp.showMaxMinTemp(
+      `${fahrenheitToCelsius(today.tempmax)}° / ${fahrenheitToCelsius(
+        today.tempmin
+      )}°`
+    );
+    weatherApp.showWind(`${milesToKilometers(today.windspeed)} km/h`);
+    weatherApp.showPressure(`${Math.trunc(today.pressure)}%`);
+    weatherApp.showVisibility(`${milesToKilometers(today.visibility)} km`);
+    weatherApp.showHumidity(`${today.humidity}%`);
+    weatherApp.showDew(`${fahrenheitToCelsius(today.dew)}°`);
+    weatherApp.showUVIndex(`${today.uvindex} of 10`);
+    weatherApp.showMoonPhase("Full Moon");
+  });
+};
+
+searchButton.addEventListener("click", displayLocationWeather);
+
 searchClearButton.addEventListener("click", (e) => {
   e.preventDefault();
   searchInput.value = "";
@@ -89,8 +134,6 @@ searchClearButton.addEventListener("click", (e) => {
 });
 
 //Dumby DOM content
-
-searchButton.addEventListener("click", searchLocationWeather);
 document.getElementById("weather_descr_icon").src = cloudy;
 
 const weekdayIcons = document.querySelectorAll(".weather-image-container");

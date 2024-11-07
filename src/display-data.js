@@ -15,7 +15,7 @@ export default function () {
   const humidity = document.getElementById("humidity");
   const dewPoint = document.getElementById("dew_point");
   const uvIndex = document.getElementById("uv_index");
-  const moonPhase = document.getElementById("moon-phase");
+  const moonPhase = document.getElementById("moon_phase");
 
   function display(ref, value) {
     ref.textContent = "";
