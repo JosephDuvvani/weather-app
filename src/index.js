@@ -38,6 +38,7 @@ function getFilteredData(data) {
         temp: day.temp,
         tempmax: day.tempmax,
         tempmin: day.tempmin,
+        feelslike: day.feelslike,
         datetime: day.datetime,
         conditions: day.conditions,
         dew: day.dew,
@@ -106,7 +107,56 @@ const nameMoonPhase = (value) => {
   }
 };
 
-const displayLocationWeather = () => {
+let dayNum = 0;
+
+const displayCardData = (data) => {
+  let location = data.address;
+  if (location.includes(",")) {
+    location = data.address.split(",");
+    location.pop();
+  }
+  const current = data.currentConditions;
+  const today = data.days[dayNum];
+  const currentTime = current.datetime.split(":");
+  currentTime.pop();
+  const formattedDateTime = `${currentTime.join(":")} ${format(
+    new Date(`${today.datetime}`),
+    "EEEE, dd MMM yyyy"
+  )}`;
+
+  weatherApp.showAddress(data.address);
+  if (dayNum == 0) {
+    weatherApp.showDatetime(formattedDateTime);
+    weatherApp.showTempCelsius(fahrenheitToCelsius(current.temp));
+    weatherApp.showTempFahrenheit(Math.trunc(current.temp));
+    weatherApp.showFeelslikeFahrenheit(Math.trunc(current.feelslike));
+    weatherApp.showFeelslikeCelsius(fahrenheitToCelsius(current.feelslike));
+  } else {
+    weatherApp.showDatetime(
+      format(new Date(`${today.datetime}`), "EEEE, dd MMM yyyy")
+    );
+    weatherApp.showTempCelsius(fahrenheitToCelsius(today.temp));
+    weatherApp.showTempFahrenheit(Math.trunc(today.temp));
+    weatherApp.showFeelslikeFahrenheit(Math.trunc(today.feelslike));
+    weatherApp.showFeelslikeCelsius(fahrenheitToCelsius(today.feelslike));
+  }
+  weatherApp.showDescriptionText(today.conditions);
+  weatherApp.showDataTableTitle(`Weather today in ${location}`);
+  weatherApp.showMaxMinTemp(
+    `${fahrenheitToCelsius(today.tempmax)}° / ${fahrenheitToCelsius(
+      today.tempmin
+    )}°`
+  );
+  weatherApp.showWind(`${milesToKilometers(today.windspeed)} km/h`);
+  weatherApp.showPressure(`${Math.trunc(today.pressure)}%`);
+  weatherApp.showVisibility(`${milesToKilometers(today.visibility)} km`);
+  weatherApp.showHumidity(`${today.humidity}%`);
+  weatherApp.showDew(`${fahrenheitToCelsius(today.dew)}°`);
+  weatherApp.showUVIndex(`${today.uvindex} of 10`);
+  weatherApp.showMoonPhase(nameMoonPhase(today.moonphase));
+};
+
+const searchLocationWeather = () => {
   if (searchInput.value === "") return;
   const location = searchInput.value.trim();
   const weatherData = getWeatherData(location);
@@ -116,41 +166,8 @@ const displayLocationWeather = () => {
     currentWeatherData = data;
 
     //Weather Card
-    let location = data.address;
-    if (location.includes(",")) {
-      location = data.address.split(",");
-      location.pop();
-    }
-    const current = data.currentConditions;
-    const today = data.days[0];
-    const currentTime = current.datetime.split(":");
-    currentTime.pop();
-    const formattedDateTime = `${currentTime.join(":")} ${format(
-      new Date(`${today.datetime}`),
-      "EEEE, dd MMM yyyy"
-    )}`;
-
-    weatherApp.showAddress(data.address);
-    weatherApp.showDatetime(formattedDateTime);
-    weatherApp.showTempCelsius(fahrenheitToCelsius(current.temp));
-    weatherApp.showTempFahrenheit(Math.trunc(current.temp));
-    weatherApp.showDescriptionText(today.conditions);
-    weatherApp.showDataTableTitle(`Weather today in ${location}`);
-    weatherApp.showFeelslikeCelsius(fahrenheitToCelsius(current.feelslike));
-    weatherApp.showFeelslikeFahrenheit(Math.trunc(current.feelslike));
-    weatherApp.showMaxMinTemp(
-      `${fahrenheitToCelsius(today.tempmax)}° / ${fahrenheitToCelsius(
-        today.tempmin
-      )}°`
-    );
-    weatherApp.showWind(`${milesToKilometers(today.windspeed)} km/h`);
-    weatherApp.showPressure(`${Math.trunc(today.pressure)}%`);
-    weatherApp.showVisibility(`${milesToKilometers(today.visibility)} km`);
-    weatherApp.showHumidity(`${today.humidity}%`);
-    weatherApp.showDew(`${fahrenheitToCelsius(today.dew)}°`);
-    weatherApp.showUVIndex(`${today.uvindex} of 10`);
-    weatherApp.showMoonPhase(nameMoonPhase(today.moonphase));
-
+    displayCardData(data);
+    weatherApp.showUnitSystem();
     //Week
     for (let i = 0; i < 7; i++) {
       let day = format(new Date(data.days[i].datetime), "EEEE");
@@ -170,7 +187,11 @@ const displayLocationWeather = () => {
   });
 };
 
-searchButton.addEventListener("click", displayLocationWeather);
+searchButton.addEventListener("click", () => {
+  weatherApp.setUnitSystem("C/kph");
+  dayNum = 0;
+  searchLocationWeather();
+});
 
 searchClearButton.addEventListener("click", (e) => {
   e.preventDefault();
@@ -178,32 +199,24 @@ searchClearButton.addEventListener("click", (e) => {
   searchClearButton.style.visibility = "hidden";
 });
 
-const changeUnits = document.getElementById("switch-units");
+const changeUnitsButton = document.getElementById("switch-units");
 
-changeUnits.addEventListener("click", () => {
+const changeCardUnits = () => {
   if (!currentWeatherData) return;
 
   const currentUnits = weatherApp.getUnitSystem();
-  currentUnits === "C/kph"
-    ? weatherApp.setUnitSystem("F/mph")
-    : weatherApp.setUnitSystem("C/kph");
 
   weatherApp.showUnitSystem();
 
-  const today = currentWeatherData.days[0];
+  const today = currentWeatherData.days[dayNum];
 
-  if (currentUnits === "C/kph") {
+  if (!(currentUnits === "C/kph")) {
     weatherApp.showMaxMinTemp(
       `${Math.trunc(+today.tempmax)}° / ${Math.trunc(+today.tempmin)}°`
     );
     weatherApp.showWind(`${(+today.windspeed).toFixed(1)} m/h`);
     weatherApp.showVisibility(`${(+today.visibility).toFixed(1)} m`);
     weatherApp.showDew(`${Math.trunc(today.dew)}°`);
-
-    for (let i = 0; i < 7; i++) {
-      let temp = `${Math.trunc(+currentWeatherData.days[i].temp)}°`;
-      weatherApp.changeDaytemp(i, temp);
-    }
   } else {
     weatherApp.showMaxMinTemp(
       `${fahrenheitToCelsius(today.tempmax)}° / ${fahrenheitToCelsius(
@@ -213,12 +226,42 @@ changeUnits.addEventListener("click", () => {
     weatherApp.showWind(`${milesToKilometers(today.windspeed)} km/h`);
     weatherApp.showVisibility(`${milesToKilometers(today.visibility)} km`);
     weatherApp.showDew(`${fahrenheitToCelsius(today.dew)}°`);
+  }
+};
 
+const changeWeekdayUnits = () => {
+  const currentUnits = weatherApp.getUnitSystem();
+  if (!(currentUnits === "C/kph")) {
+    for (let i = 0; i < 7; i++) {
+      let temp = `${Math.trunc(+currentWeatherData.days[i].temp)}°`;
+      weatherApp.changeDaytemp(i, temp);
+    }
+  } else {
     for (let i = 0; i < 7; i++) {
       let temp = `${fahrenheitToCelsius(+currentWeatherData.days[i].temp)}°`;
       weatherApp.changeDaytemp(i, temp);
     }
   }
+};
+
+changeUnitsButton.addEventListener("click", () => {
+  const currentUnits = weatherApp.getUnitSystem();
+  currentUnits === "C/kph"
+    ? weatherApp.setUnitSystem("F/mph")
+    : weatherApp.setUnitSystem("C/kph");
+  changeCardUnits(dayNum);
+  changeWeekdayUnits();
+});
+
+//Weekday onClick
+const weekdays = document.querySelectorAll(".weekday");
+
+weekdays.forEach((day) => {
+  day.addEventListener("click", () => {
+    dayNum = Array.from(weekdays).indexOf(day);
+    displayCardData(currentWeatherData, dayNum);
+    if (!(weatherApp.getUnitSystem() === "C/kph")) changeCardUnits(dayNum);
+  });
 });
 
 //Dumby DOM content

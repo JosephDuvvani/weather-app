@@ -331,6 +331,10 @@ h2.address {
     transform: scale(1.1);
 }
 
+.weekday * {
+    pointer-events: none;
+}
+
 .weekday .daydate {
     display: flex;
     gap: 2em;
