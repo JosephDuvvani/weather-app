@@ -85,6 +85,26 @@ const milesToKilometers = (miles) => {
   return (+miles / 0.6214).toFixed(1);
 };
 
+const nameMoonPhase = (value) => {
+  if (value === 0) {
+    return "New Moon";
+  } else if (value > 0 && value < 0.25) {
+    return "Waxing Crescent";
+  } else if (value === 0.25) {
+    return "First Quarter";
+  } else if (value > 0.25 && value < 0.5) {
+    return "Waxing Gibbous";
+  } else if (value === 0.5) {
+    return "Full Moon";
+  } else if (value > 0.5 && value < 0.75) {
+    return "Waning Gibbous";
+  } else if (value < 0.75) {
+    return "Last Quarter";
+  } else if (value > 0.75 && value <= 1) {
+    return "Waning Crescent";
+  }
+};
+
 const displayLocationWeather = () => {
   if (searchInput.value === "") return;
   const location = searchInput.value.trim();
@@ -127,7 +147,7 @@ const displayLocationWeather = () => {
     weatherApp.showHumidity(`${today.humidity}%`);
     weatherApp.showDew(`${fahrenheitToCelsius(today.dew)}°`);
     weatherApp.showUVIndex(`${today.uvindex} of 10`);
-    weatherApp.showMoonPhase("Full Moon");
+    weatherApp.showMoonPhase(nameMoonPhase(today.moonphase));
 
     //Week
     for (let i = 0; i < 7; i++) {
