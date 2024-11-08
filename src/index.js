@@ -3,9 +3,10 @@ import DisplayData from "./display-data";
 import cloudy from "./icons/cloudy.png";
 import rainy from "./icons/rain.png";
 import { format, compareAsc } from "date-fns";
-import { ta } from "date-fns/locale";
+import { da, ta } from "date-fns/locale";
 
 const weatherApp = DisplayData();
+let currentWeatherData;
 
 async function getWeatherData(location) {
   const request = new Request(
@@ -112,6 +113,7 @@ const displayLocationWeather = () => {
   weatherData.then((result) => {
     if (!result) return;
     const data = getFilteredData(result);
+    currentWeatherData = data;
 
     //Weather Card
     let location = data.address;
@@ -174,6 +176,49 @@ searchClearButton.addEventListener("click", (e) => {
   e.preventDefault();
   searchInput.value = "";
   searchClearButton.style.visibility = "hidden";
+});
+
+const changeUnits = document.getElementById("switch-units");
+
+changeUnits.addEventListener("click", () => {
+  if (!currentWeatherData) return;
+
+  const currentUnits = weatherApp.getUnitSystem();
+  currentUnits === "C/kph"
+    ? weatherApp.setUnitSystem("F/mph")
+    : weatherApp.setUnitSystem("C/kph");
+
+  weatherApp.showUnitSystem();
+
+  const today = currentWeatherData.days[0];
+
+  if (currentUnits === "C/kph") {
+    weatherApp.showMaxMinTemp(
+      `${Math.trunc(+today.tempmax)}° / ${Math.trunc(+today.tempmin)}°`
+    );
+    weatherApp.showWind(`${(+today.windspeed).toFixed(1)} m/h`);
+    weatherApp.showVisibility(`${(+today.visibility).toFixed(1)} m`);
+    weatherApp.showDew(`${Math.trunc(today.dew)}°`);
+
+    for (let i = 0; i < 7; i++) {
+      let temp = `${Math.trunc(+currentWeatherData.days[i].temp)}°`;
+      weatherApp.changeDaytemp(i, temp);
+    }
+  } else {
+    weatherApp.showMaxMinTemp(
+      `${fahrenheitToCelsius(today.tempmax)}° / ${fahrenheitToCelsius(
+        today.tempmin
+      )}°`
+    );
+    weatherApp.showWind(`${milesToKilometers(today.windspeed)} km/h`);
+    weatherApp.showVisibility(`${milesToKilometers(today.visibility)} km`);
+    weatherApp.showDew(`${fahrenheitToCelsius(today.dew)}°`);
+
+    for (let i = 0; i < 7; i++) {
+      let temp = `${fahrenheitToCelsius(+currentWeatherData.days[i].temp)}°`;
+      weatherApp.changeDaytemp(i, temp);
+    }
+  }
 });
 
 //Dumby DOM content

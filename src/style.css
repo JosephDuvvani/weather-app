@@ -167,21 +167,23 @@ h2.address {
 }
 
 .weather_card .temp {
+    display: grid;
+    grid-template-rows: 1fr min-content ;
+}
+
+.temp .tunnel {
+    height: 4.25rem;
+    overflow: hidden;
+    position: relative;
     align-self: center;
 }
 
-.temp {
-    display: flex;
-    align-items: baseline;
+.temp .track {
+    position: absolute;
 }
 
-.weather_card .temp .temperature:first-child{
+.weather_card .temp .temperature{
     font-size: 5rem;
-}
-
-.weather_card .temp .temperature:last-child{
-    font-size: 2rem;
-    cursor: pointer;
 }
 
 .celsius,
@@ -198,17 +200,20 @@ h2.address {
     line-height: .85;
 }
 
+.switch-units {
+    font-size: .8em;
+    cursor: pointer;
+    margin-bottom: .5rem;
+    width: fit-content;
+}
+
+.switch-units:hover {
+    color: hsl(120, 76%, 39%);
+}
+
 .unit svg {
     width: .5em;
     fill: currentColor;
-}
-
-.temp .line {
-    width: 2px;
-    height: 1.5rem;
-    background-color: #fff;
-    transform: rotate(20deg);
-    margin-right: .3em;
 }
 
 .weather_card-container {
@@ -354,6 +359,7 @@ h2.address {
 
 .daytemp {
     display: grid;
+    justify-items: center;
     justify-self: center;
     font-size: 1.2em;
     position: absolute;

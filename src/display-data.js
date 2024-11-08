@@ -18,13 +18,6 @@ export default function () {
   const uvIndex = document.getElementById("uv_index");
   const moonPhase = document.getElementById("moon_phase");
 
-  //Week
-  const day = document.querySelectorAll(".day");
-  const date = document.querySelectorAll(".date");
-  const weatherImage = document.querySelectorAll(".weather-image");
-  const daytempCelsius = document.querySelectorAll(".daytemp-celsius");
-  const daytempFahrenheit = document.querySelectorAll(".daytemp-fahrenheit");
-
   function display(ref, value) {
     ref.textContent = "";
     ref.textContent = value;
@@ -98,25 +91,50 @@ export default function () {
     display(moonPhase, input);
   };
 
-  const showWeekday = (
-    dayNum,
-    newDay,
-    newDate,
-    newImage,
-    dayTempC,
-    dayTempF
-  ) => {
+  //Week
+  const day = document.querySelectorAll(".day");
+  const date = document.querySelectorAll(".date");
+  const weatherImage = document.querySelectorAll(".weather-image");
+  const tempWeekday = document.querySelectorAll(".daytemp");
+  const inactiveUnitSystem = document.getElementById("inactive-units");
+
+  const showWeekday = (dayNum, newDay, newDate, newImage, dayTemp) => {
     day[dayNum].textContent = "";
     date[dayNum].textContent = "";
     weatherImage[dayNum].src = "#";
-    daytempCelsius[dayNum].textContent = "";
-    daytempFahrenheit[dayNum].textContent = "";
+    tempWeekday[dayNum].textContent = "";
 
     day[dayNum].textContent = newDay;
     date[dayNum].textContent = newDate;
     weatherImage[dayNum].src = newImage;
-    daytempCelsius[dayNum].textContent = dayTempC;
-    daytempFahrenheit[dayNum].textContent = dayTempF;
+    tempWeekday[dayNum].textContent = dayTemp;
+  };
+
+  //Units
+  const daytemp = document.querySelectorAll(".temp-track");
+  let unitSystem = "C/kph";
+
+  const getUnitSystem = () => unitSystem;
+  const setUnitSystem = (units) => (unitSystem = units);
+  const showUnitSystem = () => {
+    if (!(unitSystem === "C/kph")) {
+      inactiveUnitSystem.textContent = "";
+      inactiveUnitSystem.textContent = "Celsius";
+      daytemp.forEach((temp) => {
+        temp.style.bottom = "0";
+      });
+    } else {
+      inactiveUnitSystem.textContent = "";
+      inactiveUnitSystem.textContent = "Fahrenheit";
+      daytemp.forEach((temp) => {
+        temp.style.bottom = "initial";
+      });
+    }
+  };
+
+  const changeDaytemp = (dayNum, temp) => {
+    tempWeekday[dayNum].textContent = "";
+    tempWeekday[dayNum].textContent = temp;
   };
 
   return {
@@ -138,5 +156,9 @@ export default function () {
     showUVIndex,
     showMoonPhase,
     showWeekday,
+    getUnitSystem,
+    setUnitSystem,
+    showUnitSystem,
+    changeDaytemp,
   };
 }

@@ -70,27 +70,39 @@
           <div class="weather_card">
             <h2 class="address" id="address">East London, Eastern Cape</h2>
             <div class="datetime" id="datetime">20:21 - Monday 4, 11 2024</div>
-            <div class="temp">
-              <div class="celsius temperature">
-                <span class="temp_value" id="temp-celsius">16</span>
-                <div class="unit">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                      d="M16.5,5C18.05,5 19.5,5.47 20.69,6.28L19.53,9.17C18.73,8.44 17.67,8 16.5,8C14,8 12,10 12,12.5C12,15 14,17 16.5,17C17.53,17 18.47,16.66 19.23,16.08L20.37,18.93C19.24,19.61 17.92,20 16.5,20A7.5,7.5 0 0,1 9,12.5A7.5,7.5 0 0,1 16.5,5M6,3A3,3 0 0,1 9,6A3,3 0 0,1 6,9A3,3 0 0,1 3,6A3,3 0 0,1 6,3M6,5A1,1 0 0,0 5,6A1,1 0 0,0 6,7A1,1 0 0,0 7,6A1,1 0 0,0 6,5Z"
-                    />
-                  </svg>
+            <div class="temp" id="main-temp">
+              <div class="tunnel">
+                <div class="track temp-track">
+                  <div class="celsius temperature">
+                    <span class="temp_value" id="temp-celsius">16</span>
+                    <div class="unit">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16.5,5C18.05,5 19.5,5.47 20.69,6.28L19.53,9.17C18.73,8.44 17.67,8 16.5,8C14,8 12,10 12,12.5C12,15 14,17 16.5,17C17.53,17 18.47,16.66 19.23,16.08L20.37,18.93C19.24,19.61 17.92,20 16.5,20A7.5,7.5 0 0,1 9,12.5A7.5,7.5 0 0,1 16.5,5M6,3A3,3 0 0,1 9,6A3,3 0 0,1 6,9A3,3 0 0,1 3,6A3,3 0 0,1 6,3M6,5A1,1 0 0,0 5,6A1,1 0 0,0 6,7A1,1 0 0,0 7,6A1,1 0 0,0 6,5Z"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="fahrenheit temperature">
+                    <span class="temp_value" id="temp-fahrenheit">55</span>
+                    <div class="unit">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M11,20V5H20V8H14V11H19V14H14V20H11M6,3A3,3 0 0,1 9,6A3,3 0 0,1 6,9A3,3 0 0,1 3,6A3,3 0 0,1 6,3M6,5A1,1 0 0,0 5,6A1,1 0 0,0 6,7A1,1 0 0,0 7,6A1,1 0 0,0 6,5Z"
+                        />
+                      </svg>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="line"></div>
-              <div class="fahrenheit temperature">
-                <span class="temp_value" id="temp-fahrenheit">55</span>
-                <div class="unit">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                      d="M11,20V5H20V8H14V11H19V14H14V20H11M6,3A3,3 0 0,1 9,6A3,3 0 0,1 6,9A3,3 0 0,1 3,6A3,3 0 0,1 6,3M6,5A1,1 0 0,0 5,6A1,1 0 0,0 6,7A1,1 0 0,0 7,6A1,1 0 0,0 6,5Z"
-                    />
-                  </svg>
-                </div>
+              <div class="switch-units" id="switch-units">
+                Click to switch to <span id="inactive-units">Fahrenheit</span>
               </div>
             </div>
             <div class="weather_descr">
@@ -106,7 +118,7 @@
               <div class="data_table_header" id="table_header">
                 <div class="feelslike">
                   <div class="container">
-                    <div class="feelslike_temp">
+                    <div class="feelslike_temp temp-track">
                       <div class="celsius temperature">
                         <span class="temp_value" id="feelslike-celsius"
                           >14</span
@@ -277,12 +289,7 @@
                 <img src="#" alt="Weather Image" class="weather-image" />
               </div>
               <div class="daytemp-container">
-                <div class="daytemp">
-                  <div class="daytemp-celsius celsius temperature">16°</div>
-                  <div class="daytemp-fahrenheit fahrenheit temperature">
-                    55°
-                  </div>
-                </div>
+                <span class="daytemp">16°</span>
               </div>
             </li>
             <li class="day-2 weekday">
@@ -294,12 +301,7 @@
                 <img src="#" alt="Weather Image" class="weather-image" />
               </div>
               <div class="daytemp-container">
-                <div class="daytemp">
-                  <div class="daytemp-celsius celsius temperature">16°</div>
-                  <div class="daytemp-fahrenheit fahrenheit temperature">
-                    55°
-                  </div>
-                </div>
+                <span class="daytemp">16°</span>
               </div>
             </li>
             <li class="day-3 weekday">
@@ -311,12 +313,7 @@
                 <img src="#" alt="Weather Image" class="weather-image" />
               </div>
               <div class="daytemp-container">
-                <div class="daytemp">
-                  <div class="daytemp-celsius celsius temperature">16°</div>
-                  <div class="daytemp-fahrenheit fahrenheit temperature">
-                    55°
-                  </div>
-                </div>
+                <span class="daytemp">16°</span>
               </div>
             </li>
             <li class="day-4 weekday">
@@ -328,12 +325,7 @@
                 <img src="#" alt="Weather Image" class="weather-image" />
               </div>
               <div class="daytemp-container">
-                <div class="daytemp">
-                  <div class="daytemp-celsius celsius temperature">16°</div>
-                  <div class="daytemp-fahrenheit fahrenheit temperature">
-                    55°
-                  </div>
-                </div>
+                <span class="daytemp">16°</span>
               </div>
             </li>
             <li class="day-5 weekday">
@@ -345,12 +337,7 @@
                 <img src="#" alt="Weather Image" class="weather-image" />
               </div>
               <div class="daytemp-container">
-                <div class="daytemp">
-                  <div class="daytemp-celsius celsius temperature">16°</div>
-                  <div class="daytemp-fahrenheit fahrenheit temperature">
-                    55°
-                  </div>
-                </div>
+                <span class="daytemp">16°</span>
               </div>
             </li>
             <li class="day-6 weekday">
@@ -362,12 +349,7 @@
                 <img src="#" alt="Weather Image" class="weather-image" />
               </div>
               <div class="daytemp-container">
-                <div class="daytemp">
-                  <div class="daytemp-celsius celsius temperature">16°</div>
-                  <div class="daytemp-fahrenheit fahrenheit temperature">
-                    55°
-                  </div>
-                </div>
+                <span class="daytemp">16°</span>
               </div>
             </li>
             <li class="day-7 weekday">
@@ -379,12 +361,7 @@
                 <img src="#" alt="Weather Image" class="weather-image" />
               </div>
               <div class="daytemp-container">
-                <div class="daytemp">
-                  <div class="daytemp-celsius celsius temperature">16°</div>
-                  <div class="daytemp-fahrenheit fahrenheit temperature">
-                    55°
-                  </div>
-                </div>
+                <span class="daytemp">16°</span>
               </div>
             </li>
           </ul>
