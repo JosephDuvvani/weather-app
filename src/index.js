@@ -31,7 +31,6 @@ async function getWeatherData(location) {
 //Filter Data
 
 function getFilteredData(data) {
-  console.log(data);
   return {
     address: data.resolvedAddress,
     currentConditions: {
@@ -159,10 +158,14 @@ const displayCardData = (data) => {
 const searchInput = document.getElementById("search_form-input");
 const searchButton = document.getElementById("search_form-button");
 const searchClearButton = document.getElementById("search_form-clear");
+const weatherCard = document.querySelector(".weather_card");
+const week = document.getElementById("week");
 
 const searchLocationWeather = () => {
   if (searchInput.value === "") return;
   const location = searchInput.value.trim();
+  weatherCard.style.transform = "rotateX(90deg)";
+  week.style.transform = "rotateX(90deg)";
   const weatherData = getWeatherData(location);
   weatherData.then((result) => {
     if (!result) return;
@@ -175,6 +178,8 @@ const searchLocationWeather = () => {
 
     //Weather Card
     displayCardData(data);
+    weatherCard.style.transform = "rotateX(0deg)";
+    week.style.transform = "rotateX(0deg)";
     weatherApp.showUnitSystem();
     //Week
     for (let i = 0; i < 7; i++) {

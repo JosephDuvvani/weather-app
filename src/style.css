@@ -153,6 +153,8 @@ ul {
     justify-self: center;
     padding: 1rem;
     border-radius: .3rem;
+    transform: rotateX(90deg);
+    transition: .3s;
 }
 
 h2.address {
@@ -317,6 +319,8 @@ h2.address {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
+    transform: rotateX(90deg);
+    transition: .3s;
 }
 
 .week .day-1 {
