@@ -142,6 +142,34 @@ export default function () {
     tempWeekday[dayNum].textContent = temp;
   };
 
+  //Hide data Containers
+  const weatherCard = document.querySelector(".weather_card");
+  const week = document.getElementById("week");
+
+  const showDataField = () => {
+    weatherCard.style.transform = "rotateX(0deg)";
+    week.style.transform = "rotateX(0deg)";
+  };
+
+  const hideDataField = () => {
+    weatherCard.style.transform = "rotateX(90deg)";
+    week.style.transform = "rotateX(90deg)";
+  };
+
+  //Errors
+  const errorDiv = document.getElementById("error-message");
+
+  const showError = (error) => {
+    errorDiv.textContent = "";
+    errorDiv.textContent = error.message;
+    errorDiv.classList.toggle("hide", false);
+  };
+
+  const noError = () => {
+    errorDiv.textContent = "";
+    errorDiv.classList.toggle("hide", true);
+  };
+
   return {
     setBackground,
     showAddress,
@@ -166,5 +194,9 @@ export default function () {
     setUnitSystem,
     showUnitSystem,
     changeDaytemp,
+    showDataField,
+    hideDataField,
+    showError,
+    noError,
   };
 }

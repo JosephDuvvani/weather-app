@@ -32,6 +32,7 @@ ul {
     background-size: cover;
     background-repeat: no-repeat;
     color: #fff;
+    position: relative;
 }
 
 .content,
@@ -399,4 +400,16 @@ h2.address {
         text-wrap: wrap;
         width: 340px;
     }
+}
+
+.error-message {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2em;
+}
+
+.hide {
+    display: none;
 }

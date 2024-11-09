@@ -21,10 +21,11 @@ async function getWeatherData(location) {
     const response = await fetch(request);
     if (!response.ok) throw new Error("Location Not Found!");
     const data = await response.json();
+    weatherApp.noError();
 
     return data;
   } catch (error) {
-    console.log(error);
+    weatherApp.showError(error);
   }
 }
 
@@ -158,14 +159,12 @@ const displayCardData = (data) => {
 const searchInput = document.getElementById("search_form-input");
 const searchButton = document.getElementById("search_form-button");
 const searchClearButton = document.getElementById("search_form-clear");
-const weatherCard = document.querySelector(".weather_card");
-const week = document.getElementById("week");
 
 const searchLocationWeather = () => {
   if (searchInput.value === "") return;
+  weatherApp.noError();
   const location = searchInput.value.trim();
-  weatherCard.style.transform = "rotateX(90deg)";
-  week.style.transform = "rotateX(90deg)";
+  weatherApp.hideDataField();
   const weatherData = getWeatherData(location);
   weatherData.then((result) => {
     if (!result) return;
@@ -178,8 +177,7 @@ const searchLocationWeather = () => {
 
     //Weather Card
     displayCardData(data);
-    weatherCard.style.transform = "rotateX(0deg)";
-    week.style.transform = "rotateX(0deg)";
+    weatherApp.showDataField();
     weatherApp.showUnitSystem();
     //Week
     for (let i = 0; i < 7; i++) {
