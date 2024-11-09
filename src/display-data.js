@@ -1,4 +1,9 @@
 export default function () {
+  const app = document.getElementById("weather-app");
+  const setBackground = (imagePath) => {
+    app.style.backgroundImage = `linear-gradient(
+        rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${imagePath})`;
+  };
   //Weather Card
   const address = document.getElementById("address");
   const datetime = document.getElementById("datetime");
@@ -121,7 +126,7 @@ export default function () {
       inactiveUnitSystem.textContent = "";
       inactiveUnitSystem.textContent = "Celsius";
       daytemp.forEach((temp) => {
-        temp.style.bottom = "0";
+        temp.style.bottom = "-0.1em";
       });
     } else {
       inactiveUnitSystem.textContent = "";
@@ -138,6 +143,7 @@ export default function () {
   };
 
   return {
+    setBackground,
     showAddress,
     showDatetime,
     showTempCelsius,

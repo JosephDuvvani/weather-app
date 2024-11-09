@@ -1,12 +1,16 @@
 import "./style.css";
 import DisplayData from "./display-data";
-import cloudy from "./icons/cloudy.png";
+import imagify from "./imagify";
+import cloudy from "./icons/clouds.png";
 import rainy from "./icons/rain.png";
 import { format, compareAsc } from "date-fns";
 import { da, ta } from "date-fns/locale";
 
 const weatherApp = DisplayData();
+const weatherImages = imagify();
 let currentWeatherData;
+
+//Fetch Data
 
 async function getWeatherData(location) {
   const request = new Request(
@@ -23,6 +27,8 @@ async function getWeatherData(location) {
     console.log(error);
   }
 }
+
+//Filter Data
 
 function getFilteredData(data) {
   console.log(data);
@@ -67,18 +73,6 @@ function getFilteredData(data) {
   };
 }
 
-const searchInput = document.getElementById("search_form-input");
-const searchButton = document.getElementById("search_form-button");
-const searchClearButton = document.getElementById("search_form-clear");
-
-searchInput.addEventListener("input", () => {
-  if (searchInput.value.length > 0) {
-    searchClearButton.style.visibility = "visible";
-  } else {
-    searchClearButton.style.visibility = "hidden";
-  }
-});
-
 const fahrenheitToCelsius = (fahren) => {
   return Math.trunc(((+fahren - 32) * 5) / 9);
 };
@@ -106,6 +100,8 @@ const nameMoonPhase = (value) => {
     return "Waning Crescent";
   }
 };
+
+//Display Data
 
 let dayNum = 0;
 
@@ -140,6 +136,8 @@ const displayCardData = (data) => {
     weatherApp.showFeelslikeFahrenheit(Math.trunc(today.feelslike));
     weatherApp.showFeelslikeCelsius(fahrenheitToCelsius(today.feelslike));
   }
+
+  weatherApp.showDescriptionImage(weatherImages.imagify(today.conditions));
   weatherApp.showDescriptionText(today.conditions);
   weatherApp.showDataTableTitle(`Weather today in ${location}`);
   weatherApp.showMaxMinTemp(
@@ -148,13 +146,19 @@ const displayCardData = (data) => {
     )}°`
   );
   weatherApp.showWind(`${milesToKilometers(today.windspeed)} km/h`);
-  weatherApp.showPressure(`${Math.trunc(today.pressure)}%`);
+  weatherApp.showPressure(`${Math.trunc(today.pressure)} hpa`);
   weatherApp.showVisibility(`${milesToKilometers(today.visibility)} km`);
   weatherApp.showHumidity(`${today.humidity}%`);
   weatherApp.showDew(`${fahrenheitToCelsius(today.dew)}°`);
   weatherApp.showUVIndex(`${today.uvindex} of 10`);
   weatherApp.showMoonPhase(nameMoonPhase(today.moonphase));
 };
+
+//Search by Location
+
+const searchInput = document.getElementById("search_form-input");
+const searchButton = document.getElementById("search_form-button");
+const searchClearButton = document.getElementById("search_form-clear");
 
 const searchLocationWeather = () => {
   if (searchInput.value === "") return;
@@ -165,6 +169,10 @@ const searchLocationWeather = () => {
     const data = getFilteredData(result);
     currentWeatherData = data;
 
+    weatherApp.setBackground(
+      weatherImages.imagifyBackground(data.days[dayNum].conditions)
+    );
+
     //Weather Card
     displayCardData(data);
     weatherApp.showUnitSystem();
@@ -172,7 +180,7 @@ const searchLocationWeather = () => {
     for (let i = 0; i < 7; i++) {
       let day = format(new Date(data.days[i].datetime), "EEEE");
       let date = format(new Date(data.days[i].datetime), "dd/MM");
-      let image = rainy;
+      let image = weatherImages.imagify(data.days[i].conditions);
       let tempC = `${fahrenheitToCelsius(data.days[i].temp)}°`;
       let tempF = `${Math.trunc(+data.days[i].temp)}°`;
 
@@ -197,7 +205,18 @@ searchClearButton.addEventListener("click", (e) => {
   e.preventDefault();
   searchInput.value = "";
   searchClearButton.style.visibility = "hidden";
+  searchInput.focus();
 });
+
+searchInput.addEventListener("input", () => {
+  if (searchInput.value.length > 0) {
+    searchClearButton.style.visibility = "visible";
+  } else {
+    searchClearButton.style.visibility = "hidden";
+  }
+});
+
+//Change Unit System
 
 const changeUnitsButton = document.getElementById("switch-units");
 
@@ -214,8 +233,8 @@ const changeCardUnits = () => {
     weatherApp.showMaxMinTemp(
       `${Math.trunc(+today.tempmax)}° / ${Math.trunc(+today.tempmin)}°`
     );
-    weatherApp.showWind(`${(+today.windspeed).toFixed(1)} m/h`);
-    weatherApp.showVisibility(`${(+today.visibility).toFixed(1)} m`);
+    weatherApp.showWind(`${(+today.windspeed).toFixed(1)} mi/h`);
+    weatherApp.showVisibility(`${(+today.visibility).toFixed(1)} mi`);
     weatherApp.showDew(`${Math.trunc(today.dew)}°`);
   } else {
     weatherApp.showMaxMinTemp(
@@ -254,22 +273,21 @@ changeUnitsButton.addEventListener("click", () => {
 });
 
 //Weekday onClick
+
 const weekdays = document.querySelectorAll(".weekday");
 
 weekdays.forEach((day) => {
   day.addEventListener("click", () => {
+    if (!currentWeatherData) return;
     dayNum = Array.from(weekdays).indexOf(day);
+    weatherApp.setBackground(
+      weatherImages.imagifyBackground(
+        currentWeatherData.days[dayNum].conditions
+      )
+    );
     displayCardData(currentWeatherData, dayNum);
     if (!(weatherApp.getUnitSystem() === "C/kph")) changeCardUnits(dayNum);
   });
-});
-
-//Dumby DOM content
-document.getElementById("weather_descr_icon").src = cloudy;
-
-const weekdayIcons = document.querySelectorAll(".weather-image-container");
-weekdayIcons.forEach((day) => {
-  day.querySelector(".weather-image").src = rainy;
 });
 
 //Prevent unstyled content flash

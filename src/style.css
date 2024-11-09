@@ -27,7 +27,7 @@ ul {
     min-height: 100svh;
     background: linear-gradient(
         rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-        url('./images/day/cloudy/cloudy.jpg');
+        url('./images/day/clear.jpg');
     background-position: bottom;
     background-size: cover;
     background-repeat: no-repeat;
@@ -231,6 +231,11 @@ h2.address {
     width: 5rem;
 }
 
+.weather_descr .text {
+    width: 12.75rem;
+    text-align: center;
+}
+
 .data_table_title {
     font-size: .9em;
     font-weight: 500;
@@ -367,4 +372,27 @@ h2.address {
     justify-self: center;
     font-size: 1.2em;
     position: absolute;
+}
+
+@media only screen and (max-width: 1020px) {
+    .content {
+        grid-template-columns: 1fr;
+        margin: 0;
+        padding: 0 1rem 5rem;
+    }
+    .weather_card {
+        padding-inline: 0;
+    }
+    .data_table_columns {
+        grid-template-columns: 1fr;
+        width: auto;
+    }
+    .column-2 {
+        margin-left: 0;
+    }
+    .address,
+    .data_table_title {
+        text-wrap: wrap;
+        width: 340px;
+    }
 }
