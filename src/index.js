@@ -18,13 +18,16 @@ async function getWeatherData(location) {
     { mode: "cors" }
   );
   try {
+    weatherApp.loading();
     const response = await fetch(request);
     if (!response.ok) throw new Error("Location Not Found!");
     const data = await response.json();
+    weatherApp.stopLoading();
     weatherApp.noError();
 
     return data;
   } catch (error) {
+    weatherApp.stopLoading();
     weatherApp.showError(error);
   }
 }

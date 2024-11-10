@@ -170,6 +170,19 @@ export default function () {
     errorDiv.classList.toggle("hide", true);
   };
 
+  //loading
+  const load = document.getElementById("loading");
+
+  const loading = () => {
+    load.classList.toggle("loading", true);
+    load.classList.toggle("hide", false);
+  };
+
+  const stopLoading = () => {
+    load.classList.toggle("loading", false);
+    load.classList.toggle("hide", true);
+  };
+
   return {
     setBackground,
     showAddress,
@@ -198,5 +211,7 @@ export default function () {
     hideDataField,
     showError,
     noError,
+    loading,
+    stopLoading,
   };
 }
